@@ -1,0 +1,79 @@
+---
+title: "assignment3"
+author: "sairam"
+date: "February 12, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r read file}
+# Read CSV into R
+MyData <- read.csv(file="realestate1.csv")
+frame  <- data.frame(MyData)
+squarefeet <-frame[,4]
+price<-frame[,5]
+sum <- 0 
+count<-0
+for(i in squarefeet){
+  count<-count+1
+  
+  sum<-sum+i
+
+}
+
+meanofsqfeet<-sum/count
+meanofsqfeet
+```
+```{r function}
+
+MyData <- read.csv(file="realestate1.csv", header=TRUE, sep=",")
+frame  <- data.frame(MyData)
+squarefeet <-frame[,4]
+price<-frame[,5]
+mean_function <- function(a) {
+  sum <- 0 
+count<-0
+for(i in a){
+  count<-count+1
+  sum<-sum+i
+
+}
+
+mean<-sum/count
+mean
+   
+}
+mean_function(squarefeet)
+mean_function(price)
+```
+
+
+```{r lapply}
+MyData <- read.csv(file="realestate1.csv", header=TRUE, sep=",")
+frame  <- data.frame(MyData)
+squarefeet <-frame[,4]
+price<-frame[,5]
+sum<-0
+count<-0
+lapply(price, function(x) sum<-sum+x )
+count
+
+```
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
