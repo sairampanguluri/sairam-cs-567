@@ -1,0 +1,55 @@
+---
+title: "assignment_4"
+author: "sairam"
+date: "February 12, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r webscraping}
+install.packages('rvest')
+library('rvest')
+
+#Specifying the url for desired website to be scraped
+url <- 'http://www.imdb.com/search/title?count=25&release_date=2018,2018&title_type=action'
+
+#Reading the HTML code from the website
+webpage <- read_html(url)
+#Using CSS selectors to scrap the rankings section
+rank_data_html <- html_nodes(webpage,'.text-primary')
+
+#Converting the ranking data to text
+rank_data <- html_text(rank_data_html)
+#Data-Preprocessing: Converting rankings to numerical
+rank_data<-as.numeric(rank_data)
+
+#Using CSS selectors to scrap the title section
+title_data_html <- html_nodes(webpage,'.lister-item-header a')
+rating_data_html <- html_nodes(webpage,'.ratings-imdb-rating strong')
+
+frame <- data.frame(Rank=as.numeric(rank_data),Title=html_text(title_data_html),Rating=html_text(rating_data_html))
+
+frame
+
+
+```
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
