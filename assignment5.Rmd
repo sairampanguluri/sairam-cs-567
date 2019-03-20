@@ -1,0 +1,41 @@
+---
+title: "week7"
+author: "sai"
+date: "March 13, 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+#install.packages("ggplot2")
+# The easiest way to get lubridate is to install the whole tidyverse:
+install.packages("tidyverse")
+
+# Alternatively, install just lubridate:
+install.packages("lubridate")
+library(rvest)
+library(plyr)
+library(lubridate)
+library(ggplot2)
+
+mylink <- read_html("https://www.macrotrends.net/stocks/charts/GOOGL/alphabet/stock-price-history#")
+
+data <- data.frame ( html_table(mylink, header = TRUE, trim = TRUE, fill = TRUE, dec = "")[[1]])
+data
+data$Alphabet.Historical.Annual.Stock.Price.Data <- as.integer(data$Alphabet.Historical.Annual.Stock.Price.Data)
+data
+data$Alphabet.Historical.Annual.Stock.Price.Data.1 <- as.integer(data$Alphabet.Historical.Annual.Stock.Price.Data.1)
+data
+
+ggplot(data, aes(x=Alphabet.Historical.Annual.Stock.Price.Data, y=Alphabet.Historical.Annual.Stock.Price.Data.1)) +
+  geom_point(shape=1)      # Use hollow circles
+
+ggplot(data, aes(x=Alphabet.Historical.Annual.Stock.Price.Data, y=Alphabet.Historical.Annual.Stock.Price.Data.1)) +
+   geom_point(shape=1) +     geom_smooth(method=lm)   
+                             
+
+```
+
